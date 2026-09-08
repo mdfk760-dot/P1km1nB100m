@@ -462,11 +462,11 @@
                   <div class="result-cell result-count"><span class="mobile-label">座標</span>${coordCount}</div>
                   <div class="result-cell">
                     <div class="row-actions">
-                      <button onclick="copyContent('${report.id}')">複製內文</button>
                       <button class="green" onclick="copyCoords('${report.id}')">複製座標</button>
                       <button class="secondary" onclick="arJumpHarvest('${report.id}')">AR跳收</button>
                       <button class="download" onclick="downloadFruitGpx('${report.id}')">下載GPX</button>
                       <span class="admin-actions">
+					    <button onclick="copyContent('${report.id}')">複製內文</button>
                         <button class="green" onclick="editReport('${report.id}')">編輯</button>
                         <button class="danger" onclick="deleteReport('${report.id}')">刪除</button>
                       </span>
