@@ -556,27 +556,73 @@ function buildCopyContent(report) {
     window.editReport = editReport;
     window.deleteReport = deleteReport;
 
-    $("parseBtn").addEventListener("click", () => {
-      const rawText = cleanSpreadsheetText($("rawInput").value);
-      const coordsText = cleanCoordsText($("coordsInput").value);
+$("parseBtn").addEventListener("click", () => {
+  const rawText =
+    cleanSpreadsheetText(
+      $("rawInput").value
+    );
 
-      if (!rawText || !coordsText) {
-        alert("請先填入「內容」與「座標」兩個欄位，再進行解析，避免資料缺漏。");
-        return;
-      }
+  const coordsText =
+    cleanCoordsText(
+      $("coordsInput").value
+    );
 
-      const parsed = parseReportText(rawText);
-      const coordCount = getCoordCount(coordsText);
-      $("rawInput").value = parsed.raw;
-      $("coordsInput").value = coordsText;
-      $("placeInput").value = parsed.place;
-      if (parsed.color) $("colorInput").value = parsed.color;
-      if (parsed.flower) $("flowerInput").value = parsed.flower;
-      $("amountInput").value = coordCount;
-      $("timeInput").value = parsed.time;
-      $("noteInput").value = parsed.note;
-      showToast(`已解析，株數已套用座標數量：${coordCount}`);
-    });
+  // 只有「內容」有資料：
+  // 只清除頭尾多餘的 "，不進行完整解析，
+  // 也不跳出需要按確認的 alert。
+  if (rawText && !coordsText) {
+    $("rawInput").value = rawText;
+
+    showToast("已整理內容格式");
+
+    return;
+  }
+
+  // 完全沒有內容
+  if (!rawText) {
+    alert("請先填入公告內容。");
+    return;
+  }
+
+  // 有內容也有座標 → 正常完整解析
+  const parsed =
+    parseReportText(rawText);
+
+  const coordCount =
+    getCoordCount(coordsText);
+
+  $("rawInput").value =
+    parsed.raw;
+
+  $("coordsInput").value =
+    coordsText;
+
+  $("placeInput").value =
+    parsed.place;
+
+  if (parsed.color) {
+    $("colorInput").value =
+      parsed.color;
+  }
+
+  if (parsed.flower) {
+    $("flowerInput").value =
+      parsed.flower;
+  }
+
+  $("amountInput").value =
+    coordCount;
+
+  $("timeInput").value =
+    parsed.time;
+
+  $("noteInput").value =
+    parsed.note;
+
+  showToast(
+    `已解析，株數已套用座標數量：${coordCount}`
+  );
+});
 
     $("saveBtn").addEventListener("click", async () => {
       const rawText = cleanSpreadsheetText($("rawInput").value);
