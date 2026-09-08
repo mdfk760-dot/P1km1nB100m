@@ -248,16 +248,26 @@
       SITE_URL
     ].join("\n");
 
-    function removeCopyNoticeFooter(text) {
-      return String(text || "")
-        .replace(/\n{0,2}收果提醒[\s\S]*$/u, "")
-        .trim();
-    }
+function buildCopyContent(report) {
+  const flowerText =
+    `${report.color || ""}` +
+    `${report.flower || ""}` +
+    `${report.amount ? report.amount + "株" : ""}`;
 
-    function buildCopyContent(report) {
-      const base = removeCopyNoticeFooter(buildDisplayText(report));
-      return `${base}\n\n${COPY_NOTICE_TEXT}`.trim();
-    }
+  const timeText =
+    formatDisplayTime(report.time);
+
+  const message = [
+    report.place || "未命名花田",
+    `🌸${flowerText}`,
+    `⏰${timeText}`,
+    `📝${report.note || ""}`,
+    "",
+    COPY_NOTICE_TEXT
+  ];
+
+  return message.join("\n");
+}
 
     function buildDisplayText(report) {
       if (report.raw) {
