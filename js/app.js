@@ -724,22 +724,25 @@ $("parseBtn").addEventListener("click", () => {
       $("loginDialog").close();
       setAccessMode(result.role);
 
-      // 驗證成功的同一個 API 回應已附帶該權限可見的公告，
-      // 不再登入成功後立刻發第二次 list POST。
-      if (Array.isArray(result.reports)) {
-        reports = result.reports;
-        if (result.dataVersion != null) currentDataVersion = String(result.dataVersion);
-        hasDisplayedReportSnapshot = true;
-        saveReportsSnapshot(result.role, reports);
-        renderReports();
-      } else {
-        // 相容舊版 Apps Script：若尚未回傳 reports，才走原本的第二次讀取。
-        hasDisplayedReportSnapshot = false;
-        const restoredProtected = restoreReportsSnapshot(result.role);
-        await refreshReports({ force: true, showLoading: !restoredProtected });
-      }
-
-      showToast(result.role === "admin" ? "已進入 Admin 管理模式" : "已進入私田模式");
+		// 密碼驗證成功後，立即進入對應權限模式。
+		// Reports / 私田資料改在背景載入，不阻塞 Admin 介面顯示。
+		
+		const restoredProtected =
+		  restoreReportsSnapshot(result.role);
+		
+		// 先立即告知登入成功。
+		showToast(
+		  result.role === "admin"
+		    ? "已進入 Admin 管理模式"
+		    : "已進入私田模式"
+		);
+		
+		// 背景載入最新 Admin / 私田資料。
+		// 不使用 await，避免 Google Apps Script 較慢時卡住登入畫面。
+		refreshReports({
+		  force: true,
+		  showLoading: !restoredProtected
+		});
     });
 
     $("logoutBtn").addEventListener("click", () => {
