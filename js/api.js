@@ -60,7 +60,7 @@ async function loadReportsOnce() {
 
   } else {
     res = await fetchWithTimeout(
-      `${CONFIG.API_URL}?action=list&ts=${Date.now()}`,
+      `${CONFIG.PUBLIC_API_URL}/data?ts=${Date.now()}`,
       {},
       REPORT_FETCH_TIMEOUT
     );
