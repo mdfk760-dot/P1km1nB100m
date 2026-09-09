@@ -782,7 +782,7 @@ $("parseBtn").addEventListener("click", () => {
       isCheckingDataVersion = true;
       try {
         const res = await fetchWithTimeout(
-          `${CONFIG.API_URL}?action=version&ts=${Date.now()}`,
+          `${CONFIG.PUBLIC_API_URL}/version?ts=${Date.now()}`,
           {},
           8000
         );
