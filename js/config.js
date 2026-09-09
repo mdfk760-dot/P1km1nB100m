@@ -1,11 +1,16 @@
 const CONFIG = {
   API_URL: "https://script.google.com/macros/s/AKfycby6rxbH_2xObY8yeCMD3bzspAqwMEIrHhWRfA5OrGHdLx55DPeUKTENqd7DkoAEjn7p/exec",
 
+  // 公開資料透過 Cloudflare Worker 讀取
+  PUBLIC_API_URL:
+    "https://yaoyao-pikmin-api.liuhomesally.workers.dev",
+
   SITE_UPDATE_CHECK_INTERVAL: 60 * 1000,
   FRONTEND_CACHE_MAX_AGE: 15 * 60 * 1000,
   DATA_VERSION_CHECK_INTERVAL: 15 * 1000, // 每 15 秒只問 Apps Script：現在的公告版本是多少？
   FRUIT_AVAILABLE_MINUTES: 60
 };
+
 
 const COLORS = [
   "混色",
